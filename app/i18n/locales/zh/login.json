@@ -1,0 +1,11 @@
+{
+	"loginViaEmail": "用電子郵件登入",
+	"submit": "送出",
+	"email": "電子信箱",
+	"password": "密碼",
+
+	"forgetPassword": "忘記密碼",
+	"SignInWithFacebook": "用 Facebook 登入",
+	"SignInWithGoogle": "用 Google 登入",
+	"LOGIN_USER_NOT_VERIFIED": "帳號未認證完成, 點擊確認後將導引到認證頁面"
+}
