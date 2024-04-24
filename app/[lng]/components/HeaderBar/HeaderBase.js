@@ -35,15 +35,15 @@ export const HeaderBase = ({ t, lng }) => {
     setIsLoggedIn(false);
     router.push(`/${lng}/`);
   }
-  function clickLangSwitcher() {
-    const switchToLang =
-      languages[(languages.indexOf(lng) + 1) % languages.length];
-    const segments = SelectedLayoutSegments.join("/");
-    const queries = new URLSearchParams(SearchParams).toString();
+  //   function clickLangSwitcher() {
+  //     const switchToLang =
+  //       languages[(languages.indexOf(lng) + 1) % languages.length];
+  //     const segments = SelectedLayoutSegments.join("/");
+  //     const queries = new URLSearchParams(SearchParams).toString();
 
-    const newUrl = `/${switchToLang}/${segments}?${queries}`;
-    router.push(newUrl);
-  }
+  //     const newUrl = `/${switchToLang}/${segments}?${queries}`;
+  //     router.push(newUrl);
+  //   }
   function triggerMobileMenu(toStatus = false) {
     toStatus = !isMobileMenuOpened;
     setIsMobileMenuOpened(toStatus);
@@ -126,13 +126,13 @@ export const HeaderBase = ({ t, lng }) => {
               </Link>
             </>
           )}
-          <span>|</span>
+          {/* <span>|</span>
           <FontAwesomeIcon
             size="xl"
             icon={faLanguage}
             className="mx-2 cursor-pointer opacity-70 hover:opacity-100"
             onClick={clickLangSwitcher}
-          />
+          /> */}
         </div>
       </div>
 
@@ -196,14 +196,14 @@ export const HeaderBase = ({ t, lng }) => {
             <li className="leading-[3rem]">
               <Link href={`/${lng}/contracts`}>{t("Contracts")}</Link>
             </li>
-            <li className="leading-[3rem]">
+            {/* <li className="leading-[3rem] ">
               <FontAwesomeIcon
                 size="xl"
                 icon={faLanguage}
                 className="mx-2 cursor-pointer opacity-70 hover:opacity-100"
                 onClick={clickLangSwitcher}
               />
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>
