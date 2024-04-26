@@ -3,7 +3,7 @@ import world_gym from "../../../../public/world_gym.jpg";
 import PropTypes from "prop-types";
 
 import Image from "next/image";
-import { Contract } from "@/app/types/type";
+import { Product } from "@/app/types/type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faCommentSms, faEye } from "@fortawesome/free-solid-svg-icons";
@@ -13,14 +13,14 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { calcProductPrice } from "@/app/utils/contract";
 
-export const ContractBase = ({
+export const ProductBase = ({
   t,
   fitXs,
   r,
 }: {
   t: any;
   fitXs: boolean;
-  r: Contract;
+  r: Product;
 }) => {
   const {
     title,
@@ -32,7 +32,11 @@ export const ContractBase = ({
     view = 128,
     creator,
     processing_fee,
+    picture,
+    description,
+    price,
   } = r;
+
   const currency = "NTD";
   const selection = {
     gym_types: selections[0].list,
@@ -62,17 +66,30 @@ export const ContractBase = ({
   };
   return (
     <div
-      className={`contract-box box-border block h-full w-full cursor-pointer rounded-3xl bg-[linear-gradient(to_right,rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('/world_gym.jpg')] bg-cover p-5 text-white opacity-90 hover:opacity-100 md:gap-5 ${
+      className={`contract-box box-border block h-full w-full cursor-pointer rounded-3xl bg-cover p-5 text-black opacity-90 hover:opacity-100 md:gap-5 ${
         fitXs ? "xs" : "md:flex md:bg-none md:py-0 md:text-black"
       }`}
       title={title}
     >
+      <img
+        src={picture}
+        width={200}
+        height={100}
+        alt="wg"
+        className={`rounded-3xl h-full w-full ${fitXs ? "" : "hidden"}`}
+      />
       <div
         className={`image-block hidden rounded-3xl md:block md:w-52 md:min-w-[220px] md:overflow-hidden md:border md:border-whisper ${
           fitXs ? "md:hidden" : "md:h-36 md:flex-none"
         }`}
       >
-        <Image src={world_gym} width={200} alt="wg" className="h-full w-full" />
+        <img
+          src={picture}
+          width={200}
+          height={100}
+          alt="wg"
+          className="h-full w-full"
+        />
       </div>
 
       <div
@@ -83,10 +100,8 @@ export const ContractBase = ({
         <div className="m-0 w-full overflow-hidden text-ellipsis whitespace-nowrap text-2xl md:text-xl">
           {title}
         </div>
-        <div className="m-0 text-sm">
-          {gym_typeCaption()} {store}
-        </div>
-        <div
+        {/* <div className="m-0 text-sm">{description}</div> */}
+        {/* <div
           className={`hidden w-full text-sm md:block ${fitXs && "md:hidden"}`}
         >
           {t("creator")}: {creator.first_name}
@@ -124,7 +139,7 @@ export const ContractBase = ({
             }`}
             title={creator.email}
           />
-        </div>
+        </div> */}
       </div>
       <div
         className={`text-box-right flex flex-wrap py-2 text-right md:gap-2 ${
@@ -137,11 +152,10 @@ export const ContractBase = ({
           }`}
         >
           <span className={`${fitXs ? "" : "md:text-dodgerBlue"}`}>
-            {currency} $
-            {calcProductPrice(expiry_date, monthly_rental, processing_fee)}
+            {currency} ${price}
           </span>
         </div>
-        <div
+        {/* <div
           className={`w-full text-2xl md:text-slateGrey ${
             fitXs
               ? "text-2xl md:text-2xl md:text-white"
@@ -149,8 +163,8 @@ export const ContractBase = ({
           }`}
         >
           {currency} ${monthly_rental}&nbsp;{t("Monthly")}
-        </div>
-        <div className="w-full">
+        </div> */}
+        {/* <div className="w-full">
           <p className="m-0 text-sm">
             {t("expiryDate")}: {mm_yyyy()}
           </p>
@@ -161,7 +175,7 @@ export const ContractBase = ({
             {t("updateDate")}: {mm_yyyy_modify_time()}
           </p>
           <div style={{ clear: "both" }}></div>
-        </div>
+        </div> */}
       </div>
       <div className={`view-count hidden text-sm`}>
         <FontAwesomeIcon icon={faEye} />
@@ -171,7 +185,7 @@ export const ContractBase = ({
   );
 };
 
-ContractBase.propTypes = {
+ProductBase.propTypes = {
   fitXs: PropTypes.bool,
   r: PropTypes.object,
   lng: PropTypes.string,

@@ -1,9 +1,9 @@
 import axios from "axios";
-import { Contract, User } from "../types/type";
+import { Product, User } from "../types/type";
 import Cookies from "js-cookie";
 import { SetSpinnerClose, SetSpinnerOpen } from "../[lng]/components/Spinner";
-// const host = process.env.NEXT_PUBLIC_API_HOST;
-const host = "http://localhost:8000";
+const host = process.env.NEXT_PUBLIC_API_HOST;
+// const host = "http://localhost:8000";
 // const host = 'https://gympool-stg-fastapi.nodm.app/';
 
 const isCRC = typeof window !== "undefined";
@@ -47,9 +47,9 @@ basicRequest.interceptors.response.use(
 );
 
 async function getCountyScatter() {
-  const url = "/contracts/group-by-county";
+  const url = "/products/group-by-county";
   const countyScatter = await basicRequest
-    .get<Contract[]>(url)
+    .get<Product[]>(url)
     .then((response: any) => {
       let list = response.data;
       list.splice(4, list.length);
@@ -72,16 +72,16 @@ async function getContracts({
   county?: string;
   q?: string;
 }) {
-  let url = `/contracts?page_size=${page_size}`;
+  let url = `/products?page_size=${page_size}`;
   if (page > 0) url = `${url}&page=${page}`;
   if (county !== "全部區域") url = `${url}&county=${county}`;
   if (q !== "") url = `${url}&q=${q}`;
-  const contracts = await basicRequest
-    .get<Contract[]>(url)
+  const products = await basicRequest
+    .get<Product[]>(url)
     .then((response: any) => {
       return response.data;
     });
-  return contracts;
+  return products;
 }
 
 async function getMyContracts(
@@ -96,21 +96,21 @@ async function getMyContracts(
   },
   abortController?: AbortController
 ) {
-  let url = `/users/${user_id}/contracts?page_size=${page_size}`;
+  let url = `/users/${user_id}/products?page_size=${page_size}`;
   if (page > 0) url = `${url}&page=${page}`;
-  const contracts = await basicRequest
-    .get<Contract[]>(url, { signal: abortController?.signal })
+  const products = await basicRequest
+    .get<Product[]>(url, { signal: abortController?.signal })
     .then((response: any) => {
       return response.data;
     })
     .catch((error) => {});
-  return contracts;
+  return products;
 }
 
 async function getContract(id: number, abortController?: AbortController) {
-  const url = `/contracts/${id}`;
+  const url = `/products/${id}`;
   const contract = await basicRequest
-    .get<Contract>(url, { signal: abortController?.signal })
+    .get<Product>(url, { signal: abortController?.signal })
     .then((response: any) => {
       return response.data;
     })

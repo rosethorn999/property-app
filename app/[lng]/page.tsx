@@ -1,7 +1,7 @@
 import Link from "next/link";
-import ContractBox from "./components/ContractBox";
+import ContractBox from "./components/ProductBox";
 import { getContracts, getCountyScatter } from "../../app/apis/api";
-import { Contract, Pagination } from "../types/type";
+import { Product, Pagination } from "../types/type";
 import { useTranslation } from "../i18n";
 
 const Page = async ({ params: { lng } }: { params: { lng: string } }) => {
@@ -9,12 +9,12 @@ const Page = async ({ params: { lng } }: { params: { lng: string } }) => {
   const { t } = await useTranslation(lng);
   // // const isMobileWidth = window.innerWidth <= 480;
   // const _page_size = 15; // isMobileWidth ? 7 : 15; // mobile show 7 items, pc 15 items
-  const { results: contracts, count: recordCount }: Pagination<Contract> =
+  const { results: products, count: recordCount }: Pagination<Product> =
     await getContracts({
       page_size: 10,
       county: "全部區域",
     });
-  const countyScatter = await getCountyScatter();
+  const countyScatter: any[] = []; // await getCountyScatter();
   const borderColors = [
     "border-sunflower",
     "border-chestnut",
@@ -44,7 +44,7 @@ const Page = async ({ params: { lng } }: { params: { lng: string } }) => {
                     className={`m-5 mb-10 inline-block h-28 w-28 rounded-full border-2 pt-2 text-xl ${borderColors[i]}`}
                   >
                     <Link
-                      href={`/${lng}/contracts?county=${item.county}`}
+                      href={`/${lng}/products?county=${item.county}`}
                       className="leading-7 text-nightRider hover:text-gympoolBlue"
                     >
                       {t(item.county)}
@@ -59,7 +59,7 @@ const Page = async ({ params: { lng } }: { params: { lng: string } }) => {
           <p className="mb-4">
             {t("browse")}&nbsp;
             <Link
-              href={`/${lng}/contracts`}
+              href={`/${lng}/products`}
               className=" text-grassGreen hover:text-gympoolBlue"
             >
               {t("allItems")}
@@ -70,10 +70,10 @@ const Page = async ({ params: { lng } }: { params: { lng: string } }) => {
       <div className="px-5 py-8 text-3xl md:py-24 md:text-2xl ">
         <h5 className="py-8">{t("newArrivals")}</h5>
         <div className="mb-8 flex flex-row flex-wrap justify-start gap-x-5 gap-y-10">
-          {contracts.map((r: Contract, i: number) => {
+          {products.map((r: Product, i: number) => {
             return (
               <div className="h-48 w-full md:w-80" key={r.id}>
-                <Link href={`contracts/${r.id}`}>
+                <Link href={`products/${r.id}`}>
                   <ContractBox lng={lng} r={r} fitXs={true} />
                 </Link>
               </div>
@@ -85,7 +85,7 @@ const Page = async ({ params: { lng } }: { params: { lng: string } }) => {
           <Link
             router-link="true"
             className="text-gympoolBlue"
-            href={`/${lng}/contracts`}
+            href={`/${lng}/products`}
           >
             {t("allItems")}
           </Link>

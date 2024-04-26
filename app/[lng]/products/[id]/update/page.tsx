@@ -6,7 +6,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import basicRequest, { getContract } from "@/app/apis/api";
-import { Contract, User } from "@/app/types/type";
+import { Product, User } from "@/app/types/type";
 import { useTranslation } from "@/app/i18n/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ import {
 } from "@/app/utils/contract";
 
 export default function Page({ params: { lng, id: recordId } }: any) {
-  const { t } = useTranslation(lng, "contracts");
+  const { t } = useTranslation(lng, "products");
   const router = useRouter();
   const currency = "NTD";
   const selection = {
@@ -46,7 +46,7 @@ export default function Page({ params: { lng, id: recordId } }: any) {
   };
   useEffect(() => {
     const loadContract = async (abortController: AbortController) => {
-      const results: Contract = await getContract(recordId, abortController);
+      const results: Product = await getContract(recordId, abortController);
       if (results) {
         formik.setValues(results);
         const county = results.county;
@@ -66,7 +66,7 @@ export default function Page({ params: { lng, id: recordId } }: any) {
       formik.validateField("district");
     }
   }, [districts]);
-  const validate = (values: Contract) => {
+  const validate = (values: Product) => {
     const errors: any = {};
 
     if (!values.title) {
@@ -102,7 +102,7 @@ export default function Page({ params: { lng, id: recordId } }: any) {
     return errors;
   };
 
-  const initialValues: Contract = {
+  const initialValues: Product = {
     id: "",
     creator: {} as User,
     modify_time: "",
@@ -119,6 +119,10 @@ export default function Page({ params: { lng, id: recordId } }: any) {
     store: "",
     inventory: 1,
     features: [],
+
+    price: 0,
+    stock: 0,
+    picture: "",
   };
   const formik = useFormik({
     initialValues,
@@ -129,7 +133,7 @@ export default function Page({ params: { lng, id: recordId } }: any) {
   });
   async function updateContract(values: any) {
     try {
-      const url = `/contracts/${values.id}`;
+      const url = `/products/${values.id}`;
       const req = await basicRequest.put(url, values);
       const msg = `${values.title} 已經更新`;
       await Swal.fire("完成", msg, "success");

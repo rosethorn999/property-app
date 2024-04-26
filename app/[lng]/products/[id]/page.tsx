@@ -1,7 +1,7 @@
 import Link from "next/link";
 import selections from "../../../../public/selections.json";
 import Image from "next/image";
-import ContractBox from "@/app/[lng]/components/ContractBox";
+import ContractBox from "@/app/[lng]/components/ProductBox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCommentSms, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faEye, faEnvelope } from "@fortawesome/free-regular-svg-icons";
@@ -10,13 +10,13 @@ import {
   faLine,
 } from "@fortawesome/free-brands-svg-icons";
 import { getContracts, getContract } from "@/app/apis/api";
-import { Contract, Pagination } from "@/app/types/type";
+import { Product, Pagination } from "@/app/types/type";
 import { useTranslation } from "@/app/i18n";
 import { calcProductPrice } from "@/app/utils/contract";
 
 export async function generateStaticParams() {
-  const { results: contracts }: Pagination<Contract> = await getContracts({});
-  const ids = contracts.map((o) => {
+  const { results: products }: Pagination<Product> = await getContracts({});
+  const ids = products.map((o) => {
     return { id: o.id.toString() };
   });
   return ids;
@@ -24,8 +24,8 @@ export async function generateStaticParams() {
 
 export default async function Page({ params: { lng, id: recordId } }: any) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { t } = await useTranslation(lng, "contracts");
-  const contract: Contract = await getContract(recordId);
+  const { t } = await useTranslation(lng, "products");
+  const product: Product = await getContract(recordId);
   const currency = "NTD";
   const {
     title,
@@ -42,13 +42,14 @@ export default async function Page({ params: { lng, id: recordId } }: any) {
     create_time,
     creator,
     inventory,
-  } = contract;
-  const { results: nearByContracts }: Pagination<Contract> = await getContracts(
-    {
-      county: county,
-      page_size: 4,
-    }
-  );
+    picture,
+    price,
+    stock,
+  } = product;
+  const { results: nearByContracts }: Pagination<Product> = await getContracts({
+    county: county,
+    page_size: 4,
+  });
   const selection = {
     gym_types: selections[0].list,
     features: selections[1].list,
@@ -67,7 +68,7 @@ export default async function Page({ params: { lng, id: recordId } }: any) {
     <div className="recordDetail bg-white">
       <div className="h-full p-5 md:py-0">
         <div className="controller sticky top-[67px] z-10 cursor-pointer bg-white pb-6 pt-12">
-          <Link href="/contracts">
+          <Link href="/products">
             <FontAwesomeIcon icon={faArrowLeft} /> {t("Back")}
           </Link>
         </div>
@@ -75,9 +76,9 @@ export default async function Page({ params: { lng, id: recordId } }: any) {
           <div className="upper-box mb-24 flex w-full flex-col gap-4 md:flex-row md:gap-24">
             <div className="left-box flex w-full flex-col gap-4 md:w-2/5">
               <h1 className="mb-8 text-4xl font-bold">{title}</h1>
-              <Image
+              <img
                 className="main-image w-full rounded-3xl border border-whisper"
-                src="/500x300.png"
+                src={picture}
                 alt="mainPic"
                 width="500"
                 height="300"
@@ -85,7 +86,7 @@ export default async function Page({ params: { lng, id: recordId } }: any) {
               <span className="text-persianRed">
                 {inventory <= 0 && <p>{t("SoldOut")}</p>}
               </span>
-              <div className="contacts-box flex flex-col gap-5">
+              {/* <div className="contacts-box flex flex-col gap-5">
                 <p className="text-xl">{t("sellerInfo")}</p>
                 <div>
                   {t("creator")}:&nbsp;
@@ -161,20 +162,18 @@ export default async function Page({ params: { lng, id: recordId } }: any) {
                     />
                   </Link>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="right-box flex w-full flex-col gap-7 md:w-3/5">
               <div>
                 <h5 className="text-lg font-medium">{t("storeName")}</h5>
-                <h3 className="text-3xl font-medium">
-                  {gym_typeCaption(gym_type)} {store}
-                </h3>
+                <h3 className="text-3xl font-medium">{title}</h3>
                 <p className="text-lg">
                   {county} {district}
                 </p>
               </div>
 
-              <div className="contract-date-block">
+              {/* <div className="contract-date-block">
                 <h5 className="text-lg font-medium">{t("expiryDate")}</h5>
                 <h4 className="text-2xl">{expiry_date.slice(0, 10)}</h4>
                 <p className="text-slateGrey">
@@ -183,7 +182,7 @@ export default async function Page({ params: { lng, id: recordId } }: any) {
                 <p className="text-slateGrey">
                   {t("modifyTime")}: {modify_time?.slice(0, 19)}
                 </p>
-              </div>
+              </div> */}
 
               {/* <p>
 								場館特色:{' '}
@@ -194,19 +193,14 @@ export default async function Page({ params: { lng, id: recordId } }: any) {
               <div className="contract-price">
                 <h5 className="text-lg font-medium">{t("price")}</h5>
                 <h6 className="blue text-3xl font-medium text-dodgerBlue">
-                  {currency} $
-                  {calcProductPrice(
-                    expiry_date,
-                    monthly_rental,
-                    processing_fee
-                  )}
+                  {currency} ${price}
                 </h6>
-                <p className="gray font-medium text-slateGrey">
+                {/* <p className="gray font-medium text-slateGrey">
                   {t("monthlyRentalFee")}: ${monthly_rental}
                 </p>
                 <p className="gray font-medium text-slateGrey">
                   {t("processingFee")}: ${processing_fee}
-                </p>
+                </p> */}
               </div>
               <div className="rounded-3xl">
                 <h5 className="text-lg font-medium">{t("description")}</h5>
@@ -222,7 +216,7 @@ export default async function Page({ params: { lng, id: recordId } }: any) {
           </div>
           <h2 className="mb-12 text-4xl">{t("nearby")}</h2>
           <div className="mb-8 flex flex-row flex-wrap justify-start gap-16">
-            {nearByContracts.map((r: Contract, i: number) => {
+            {nearByContracts.map((r: Product, i: number) => {
               return (
                 <div className="h-48 w-full md:w-80" key={r.id}>
                   <Link href={`./${r.id}`}>

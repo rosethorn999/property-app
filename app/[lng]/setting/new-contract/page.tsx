@@ -18,10 +18,10 @@ import {
   calcProductPrice,
   isDateValid,
 } from "@/app/utils/contract";
-import { Contract, User } from "../../../types/type";
+import { Product, User } from "../../../types/type";
 
 export default function Page({ params: { lng, id: recordId } }: any) {
-  const { t } = useTranslation(lng, "contracts");
+  const { t } = useTranslation(lng, "products");
   const router = useRouter();
   const currency = "NTD";
   const selection = {
@@ -43,7 +43,7 @@ export default function Page({ params: { lng, id: recordId } }: any) {
     }
     setDistricts(ret);
   }
-  const validate = (values: Contract) => {
+  const validate = (values: Product) => {
     const errors: any = {};
 
     if (!values.title) {
@@ -78,7 +78,7 @@ export default function Page({ params: { lng, id: recordId } }: any) {
 
     return errors;
   };
-  const initialValues: Contract = {
+  const initialValues: Product = {
     id: "",
     creator: {} as User,
     modify_time: "",
@@ -95,6 +95,10 @@ export default function Page({ params: { lng, id: recordId } }: any) {
     store: "",
     inventory: 1,
     features: [],
+
+    price: 0,
+    stock: 0,
+    picture: "",
   };
   const formik = useFormik({
     initialValues,
@@ -124,13 +128,13 @@ export default function Page({ params: { lng, id: recordId } }: any) {
   async function createContract(values: any) {
     try {
       const user_id = Cookies.get("user_id");
-      const url = `/users/${user_id}/contracts`;
+      const url = `/users/${user_id}/products`;
       const {
         data: { id },
       } = await basicRequest.post(url, values);
       const msg = `${values.title} 已經建立`;
       await Swal.fire("完成", msg, "success");
-      router.push(`/${lng}/contracts/${id}`);
+      router.push(`/${lng}/products/${id}`);
     } catch (error: any) {
       let msg = "";
       const statusCode: number = error.response.status;

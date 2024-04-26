@@ -1,8 +1,8 @@
 {
-	"Contracts": "合約轉讓",
-	"title": "標題",
-	"setting": "管理後台",
-	"logOut": "登出",
-	"register": "註冊",
-	"logIn": "登入"
+  "Contracts": "瀏覽商品",
+  "title": "標題",
+  "setting": "管理後台",
+  "logOut": "登出",
+  "register": "註冊",
+  "logIn": "登入"
 }

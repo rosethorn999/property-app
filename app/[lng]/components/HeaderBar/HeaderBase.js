@@ -14,7 +14,7 @@ import {
   useSelectedLayoutSegments,
   useSearchParams,
 } from "next/navigation";
-import gymPoolLogo from "../../../../public/gymPoolLogo.svg";
+import logo from "../../../../public/xiangge.png";
 
 export const HeaderBase = ({ t, lng }) => {
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState(false);
@@ -70,7 +70,7 @@ export const HeaderBase = ({ t, lng }) => {
         <div className="logo-area h-[67px] w-1/2 cursor-pointer columns-2 text-left text-2xl ease-in md:w-[300px] md:text-center">
           <Link href={`/${lng}/`} className="block h-full w-[300px]">
             <Image
-              src={gymPoolLogo}
+              src={logo}
               width="200"
               height="auto"
               id="brandIcon"
@@ -82,7 +82,7 @@ export const HeaderBase = ({ t, lng }) => {
         <div className="hidden md:inline-block md:w-2/5 md:text-left">
           <Link
             className="md:h-[67px] md:leading-[76px]"
-            href={`/${lng}/contracts`}
+            href={`/${lng}/products`}
           >
             {t("Contracts")}
           </Link>
@@ -99,7 +99,7 @@ export const HeaderBase = ({ t, lng }) => {
           />
           <Link
             className="search-btn inline-block opacity-70 hover:opacity-100 md:h-8 md:w-16 md:rounded-r-2xl md:border-y md:border-r md:border-whisper md:bg-transparent md:p-0 md:text-center md:align-middle md:text-lg md:leading-8 md:text-nightRider"
-            href={`/${lng}/contracts/?q=${search.trim()}`}
+            href={`/${lng}/products/?q=${search.trim()}`}
           >
             <FontAwesomeIcon icon={faMagnifyingGlass} />
           </Link>
@@ -107,7 +107,7 @@ export const HeaderBase = ({ t, lng }) => {
         <div className="login-area hidden md:inline-block md:h-[67px] md:w-1/5 md:pr-2 md:text-right md:leading-[76px]">
           {isLoggedIn ? (
             <>
-              <Link className="mx-2" href={`/${lng}/setting/my-contracts`}>
+              <Link className="mx-2" href={`/${lng}/setting/my-products`}>
                 {t("setting")}
               </Link>
               <span>|</span>
@@ -175,7 +175,7 @@ export const HeaderBase = ({ t, lng }) => {
             {isLoggedIn ? (
               <>
                 <li className="leading-[3rem]">
-                  <Link href={`/${lng}/setting/my-contracts`}>
+                  <Link href={`/${lng}/setting/my-products`}>
                     {t("setting")}
                   </Link>
                 </li>
@@ -194,7 +194,7 @@ export const HeaderBase = ({ t, lng }) => {
               </>
             )}
             <li className="leading-[3rem]">
-              <Link href={`/${lng}/contracts`}>{t("Contracts")}</Link>
+              <Link href={`/${lng}/products`}>{t("Contracts")}</Link>
             </li>
             {/* <li className="leading-[3rem] ">
               <FontAwesomeIcon

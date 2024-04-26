@@ -1,5 +1,5 @@
 ARG NODE=node:lts-alpine
-ARG NEXT_PUBLIC_API_HOST=https://gympool-stg-fastapi.nodm.app/
+ARG NEXT_PUBLIC_API_HOST=https://property-stg-fastapi.nodm.app/
 
 # ====================
 FROM ${NODE} AS deps
